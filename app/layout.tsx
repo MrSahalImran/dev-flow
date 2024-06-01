@@ -9,6 +9,7 @@ import "./globals.css";
 import React from "react";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Metadata } from "next";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,33 +31,34 @@ export const metadata: Metadata = {
     icon: "/assets/images/site-logo.svg",
   },
 };
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formsButtonPrimary: "primary-gradient",
-          footerActionLink: "primary-text-gradient hover:text-primary-500",
-        },
-      }}
-    >
-      <html lang="en">
+    <html lang="en">
+      <ClerkProvider
+        appearance={{
+          elements: {
+            formsButtonPrimary: "primary-gradient",
+            footerActionLink: "primary-text-gradient hover:text-primary-500",
+          },
+        }}
+      >
         <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-          <h1 className="h1-bold">This is a text</h1>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-
-          {children}
+          <ThemeProvider>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {children}
+          </ThemeProvider>
         </body>
-      </html>
-    </ClerkProvider>
+      </ClerkProvider>
+    </html>
   );
 }
